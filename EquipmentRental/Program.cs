@@ -18,4 +18,14 @@ Console.WriteLine(rentalService.RentEquipment(student.Id, projector.Id));
 Console.WriteLine(rentalService.RentEquipment(student.Id, camera.Id));
 var activeRentals = rentalService.GetActiveRentals(student.Id);
 Console.WriteLine(rentalService.ReturnEquipment(activeRentals[0].Id));
+
+// Demo: overdue return with penalty
+rentalService.AddEquipment(new Camera("Sony A7", 48, "Sony"));
+var sonyCamera = rentalService.GetAllEquipment().Last();
+rentalService.RentEquipment(employee.Id, sonyCamera.Id);
+var employeeRentals = rentalService.GetActiveRentals(employee.Id);
+// Simulate overdue by manually setting DueDate to the past
+employeeRentals[0].DueDate = DateTime.Now.AddDays(-3);
+Console.WriteLine(rentalService.ReturnEquipment(employeeRentals[0].Id));
+
 reportService.PrintReport();
